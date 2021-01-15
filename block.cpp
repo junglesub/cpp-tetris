@@ -176,7 +176,7 @@ Block & newBlock(int x_in, int y_in)
 
 void setShape(int b_type, int ** shape, int rotation)
 {
-    memset(shape, 0, 4 * 4);
+    memset(shape, 0, sizeof(int) * 4 * 4);
 
     switch (b_type)
     {
