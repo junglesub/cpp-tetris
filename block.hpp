@@ -13,6 +13,6 @@ struct Block
     void rotate(int direction);     // 회전
 };
 
-Block * newBlock(int &x, int &y);                       // 블럭 데이터 생성
+Block * newBlock(int x, int y);                         // 블럭 데이터 생성
 void delBlock(Block * delBlock);                        // 블럭 데이터 삭제
 void setShape(int b_type, int ** shape, int rotation);  // 블럭타입 set

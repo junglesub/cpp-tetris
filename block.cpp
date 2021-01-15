@@ -154,7 +154,7 @@ const int block5[4][4][4] = {
         },
 };
 
-Block * newBlock(int &x, int &y)         
+Block * newBlock(int x, int y)         
 {
     Block * newblock = new Block;
     int block_type;
@@ -163,6 +163,9 @@ Block * newBlock(int &x, int &y)
     newblock->rotation = rand() % 4 + 0;
     block_type = rand() % 5 + 0;
     setShape(block_type, newblock->shape, newblock->rotation);
+    
+    Block::x = x;
+    Block::y = y;
 
     return newblock;
 }
