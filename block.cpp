@@ -8,6 +8,10 @@ using namespace std;
 #include "block.hpp"
 #include "Console.h"
 
+// int main(){
+//     return 0;
+// }
+
 enum BlockType
 {
     b1, b2, b3, b4, b5
@@ -170,10 +174,10 @@ Block & newBlock(int x_in, int y_in)
     return *newblock;
 }
 
-
-
 void setShape(int b_type, int ** shape, int rotation)
 {
+    memset(shape, 0, 4 * 4);
+
     switch (b_type)
     {
     case b1:
