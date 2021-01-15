@@ -47,6 +47,8 @@ int main(void) {
         block.left();
       } else if (ch == 'd') {
         block.right();
+      } else if (ch == 'r') {
+        block.rotate(1);
       }
 
       ch = '\0';
