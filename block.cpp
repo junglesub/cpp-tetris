@@ -289,8 +289,8 @@ bool Block::check()
     int flag = true;
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            if (shape[i][j] != 0) {
-                if (matrix[x + i][y + j] != 0) {
+            if (shape[j][i] != 0) {
+                if (matrix[x + j][y + j] != 0) {
                     flag = false;
                 }
             }
