@@ -32,9 +32,16 @@ int main(void) {
   char ch = '\0';
 
   // 2차원 동적 Matrix [x][y] 으로 이용.
-  int **matrix = new int *[screenWidth / 3 * 2];
+  int **matrix = (int **)malloc(sizeof(int *) * screenWidth / 3 * 2);
   for (int col = 0; col < screenWidth / 3 * 2; col++) {
     matrix[col] = (int *)calloc(screenHeight, sizeof(int *));
+    // 초기화
+    matrix[col][0] = 1;                 // 천장
+    matrix[col][screenHeight - 2] = 1;  // 바닥
+  }
+  for (int row = 1; row < screenHeight - 1; row++) {
+    matrix[0][row] = 1;
+    matrix[screenWidth / 3 * 2 - 1][row] = 1;
   }
 
   Block &block = newBlock(3, 1);
