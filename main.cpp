@@ -9,14 +9,16 @@ using namespace std;
 
 void drawMainFrame(void);
 void drawScoreBoard(void);
-void showBlock(Block block, string s = "#");
+void showBlock(Block block, string s = "█");
 void removeBlock(Block block, string s = " ");
 void render(int t, Block block);
 bool inBoundOfMatrix(int x, int y);
 void bottomCollide(int **matrix, Block *block, Block **nextBlock);
 
-int const screenWidth = getWindowWidth();
-int const screenHeight = getWindowHeight() - 3;
+int const screenWidth = 30;
+int const screenHeight = 24;
+// int const screenWidth = getWindowWidth();
+// int const screenHeight = getWindowHeight() - 3;
 string const BORDERCH = "▓";
 
 int main(void) {
@@ -47,7 +49,7 @@ int main(void) {
 
   Block &block = newBlock(screenWidth / 3 - 2, 1);
   Block *nextBlock = &newBlock(screenWidth / 3 * 2 + screenWidth / 6 - 1, 10);
-  showBlock(*nextBlock, "#");
+  showBlock(*nextBlock, "█");
 
   while (1) {
     flag = true;
@@ -62,7 +64,8 @@ int main(void) {
         block.left();
         render(t, block);
       } else if (ch == 'm') {
-        // bottomCollide(matrix, &block, &nextBlock);
+        bottomCollide(matrix, &block, &nextBlock);
+        continue;
       } else if (ch == 'd') {
         block.right();
         render(t, block);
@@ -79,13 +82,13 @@ int main(void) {
         showBlock(block, " ");
         block.rotate(1);
         memcpy(block.pre_shape, block.shape, sizeof(int) * 4 * 4);
-        showBlock(block);  // showBlock(block, "#");
+        showBlock(block);  // showBlock(block, "█");
       } else if (ch == 'e') {
         // removeBlock(block, "-");
         showBlock(block, " ");
         block.rotate(-1);
         memcpy(block.pre_shape, block.shape, sizeof(int) * 4 * 4);
-        showBlock(block);  // showBlock(block, "#");
+        showBlock(block);  // showBlock(block, "█");
       }
 
       ch = '\0';
@@ -96,7 +99,7 @@ int main(void) {
         if (block.count < 2) {
           break;
         }
-      bottomCollide(matrix, &block, &nextBlock);
+        bottomCollide(matrix, &block, &nextBlock);
       }
       render(t, block);
     }
@@ -118,7 +121,7 @@ void render(int t, Block block) {
   }
 
   // Display block
-  showBlock(block);  // showBlock(block, "#");
+  showBlock(block);  // showBlock(block, "█");
 }
 
 void showBlock(Block block, string s) {
@@ -163,7 +166,7 @@ void bottomCollide(int **matrix, Block *block, Block **nextBlock) {
         if (inBoundOfMatrix(setX, setY)) {
           matrix[setX][setY] = 2;
           gotoxy(setX, setY);
-          cout << "▣";
+          cout << "▒";
         }
       }
     }
@@ -173,9 +176,8 @@ void bottomCollide(int **matrix, Block *block, Block **nextBlock) {
   block->x = screenWidth / 3 - 2;
   block->y = 1;
   *nextBlock = &newBlock(screenWidth / 3 * 2 + screenWidth / 6 - 1, 10);
-  showBlock(**nextBlock, "#");
+  showBlock(**nextBlock, "▓");
   // // *nextBlock = &newBlock(3, 1);
-
 }
 
 void drawMainFrame(void) {
