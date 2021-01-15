@@ -1,6 +1,8 @@
+#include "Console.h"
+
 struct Block 
 {
-    int rotate, x, y;
+    int rotation, x, y;
 
     void del();                 // 블럭 데이터 삭제
 
@@ -10,4 +12,4 @@ struct Block
     void rotate();             // 회전
 };
 
-Block * newBlock(int &x, int &y)         // 블럭 데이터 생성, shape 4 * 4, rotate, 초깃값 내가
+Block * newBlock(int &x, int &y);         // 블럭 데이터 생성, shape 4 * 4, rotate, 초깃값 내가
