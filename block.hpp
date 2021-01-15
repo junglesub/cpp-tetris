@@ -1,8 +1,11 @@
 struct Block 
 {
-    int x, y; 
+    int x, y;
+    int pre_x, pre_y;
+    
     int rotation, block_type;
     int ** shape;            // shape[x][y]
+    int ** pre_shape;            // shape[x][y]
 
     void down();                // 블럭 수정
     void left();                // 왼쪽, 오른쪽
