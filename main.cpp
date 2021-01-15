@@ -26,7 +26,7 @@ int main(void) {
   drawScoreBoard();
 
   int t = 0;
-  char ch = NULL;
+  char ch = '\0';
 
   // 2차원 동적 Matrix [x][y] 으로 이용.
   int **matrix = new int *[screenWidth / 3 * 2];
@@ -34,7 +34,7 @@ int main(void) {
     matrix[col] = new int[screenHeight];
   }
 
-  Block &block = *newBlock(3, 5);
+  Block &block = newBlock(3, 5);
 
   while (1) {
     // 키보드 입력
@@ -49,7 +49,7 @@ int main(void) {
         block.right();
       }
 
-      ch = NULL;
+      ch = '\0';
     }
 
     if (t % 100 == 0) {

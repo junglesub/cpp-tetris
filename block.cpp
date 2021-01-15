@@ -158,7 +158,7 @@ const int block5[4][4][4] = {
         },
 };
 
-Block * newBlock(int x_in, int y_in)         
+Block & newBlock(int x_in, int y_in)         
 {
     Block * newblock = new Block;
     int block_type;
@@ -171,8 +171,10 @@ Block * newBlock(int x_in, int y_in)
     newblock->x = x_in;
     newblock->y = y_in;
 
-    return newblock;
+    return *newblock;
 }
+
+
 
 void setShape(int b_type, int ** shape, int rotation)
 {

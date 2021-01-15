@@ -1,3 +1,6 @@
+#ifndef __BLOCK_HPP__
+#define __BLOCK_HPP__
+
 struct Block 
 {
     int x, y;
@@ -13,6 +16,8 @@ struct Block
     void rotate(int direction);     // 회전
 };
 
-Block * newBlock(int x_in, int y_in);                         // 블럭 데이터 생성
+Block & newBlock(int x_in, int y_in);                         // 블럭 데이터 생성
 void delBlock(Block * delBlock);                        // 블럭 데이터 삭제
 void setShape(int b_type, int ** shape, int rotation);  // 블럭타입 set
+
+#endif
