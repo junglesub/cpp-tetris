@@ -166,6 +166,7 @@ Block & newBlock(int x_in, int y_in)
 
     newblock->rotation = rand() % 4 + 0;
     block_type = rand() % 5 + 0;
+    
     setShape(block_type, newblock->shape, newblock->rotation);
 
     newblock->x = x_in;
@@ -174,9 +175,8 @@ Block & newBlock(int x_in, int y_in)
     return *newblock;
 }
 
-void setShape(int b_type, int ** shape, int rotation)
+void setShape(int b_type, int shape[4][4], int rotation)
 {
-    memset(shape, 0, sizeof(int) * 4 * 4);
 
     switch (b_type)
     {
@@ -214,7 +214,7 @@ void delBlock(Block * delBlock)
 void Block::down()
 {
     pre_x = x;
-    pre_y = y--;
+    pre_y = y++;
 }
 
 void Block::left()
