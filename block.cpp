@@ -223,8 +223,9 @@ bool Block::down()
     if(check() == false){
         pre_y = temp;
         y--;
+        return false;
     }
-    return false;
+    return true;
 }
 
 void Block::left()
