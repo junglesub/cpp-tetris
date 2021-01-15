@@ -13,7 +13,7 @@ void showBlock(Block block, string s = "#");
 void removeBlock(Block block, string s = " ");
 void render(int t, Block block);
 bool inBoundOfMatrix(int x, int y);
-void bottomCollide(int **matrix, Block *block, Block **nextBlock);
+// void bottomCollide(int **matrix, Block *block, Block **nextBlock);
 
 int const screenWidth = getWindowWidth();
 int const screenHeight = getWindowHeight() - 3;
@@ -33,19 +33,19 @@ int main(void) {
   int flag;
 
   // 2차원 동적 Matrix [x][y] 으로 이용.
-  int **matrix = (int **)malloc(sizeof(int *) * screenWidth / 3 * 2);
-  for (int col = 0; col < screenWidth / 3 * 2; col++) {
+  int **matrix = (int **)malloc(sizeof(int *) * screenWidth / 3 * 2 + 1);
+  for (int col = 0; col < screenWidth / 3 * 2 + 1; col++) {
     matrix[col] = (int *)calloc(screenHeight, sizeof(int *));
     // 초기화
     matrix[col][0] = 1;                 // 천장
-    matrix[col][screenHeight - 2] = 1;  // 바닥
+    matrix[col][screenHeight - 1] = 1;  // 바닥
   }
   for (int row = 1; row < screenHeight - 1; row++) {
     matrix[0][row] = 1;
-    matrix[screenWidth / 3 * 2 - 1][row] = 1;
+    matrix[screenWidth / 3 * 2][row] = 1;
   }
 
-  Block &block = newBlock(3, 0);
+  Block &block = newBlock(3, 1);
   
   while (1) {
     flag = true;
@@ -57,20 +57,20 @@ int main(void) {
       if (ch == 27 || ch == 'q') {
         break;
       } else if (ch == 'a') {
-        flag = block.left();
+        block.left();
         render(t, block);
       } else if (ch == 'm') {
-        bottomCollide(matrix, &block, &nextBlock);
+        // bottomCollide(matrix, &block, &nextBlock);
       } else if (ch == 'd') {
-        flag = block.right();
+        block.right();
         render(t, block);
       } else if (ch == 's') {
-        flag = block.down();
+        block.down();
         render(t, block);
       } else if (ch == 'r') {
         // removeBlock(block, "-");
         showBlock(block, " ");
-        flag = block.rotate(1);
+        block.rotate(1);
         memcpy(block.pre_shape, block.shape, sizeof(int) * 4 * 4);
         showBlock(block);  // showBlock(block, "#");
       } else if (ch == 'e') {
@@ -79,11 +79,6 @@ int main(void) {
         block.rotate(-1);
         memcpy(block.pre_shape, block.shape, sizeof(int) * 4 * 4);
         showBlock(block);  // showBlock(block, "#");
-      }
-
-      if (flag == false) {
-        cout << "game end";
-        break;
       }
 
       ch = '\0';

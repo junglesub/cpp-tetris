@@ -13,9 +13,9 @@ struct Block
     int ** matrix;
 
     bool down();                    // 블럭 수정
-    bool left();                    // 왼쪽, 오른쪽
-    bool right();                   // 오른쪽
-    bool rotate(int direction);     // 회전
+    void left();                    // 왼쪽, 오른쪽
+    void right();                   // 오른쪽
+    void rotate(int direction);     // 회전
 
     bool check();
 };

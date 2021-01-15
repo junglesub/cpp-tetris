@@ -169,6 +169,9 @@ Block & newBlock(int x_in, int y_in)
     setShape(newblock->block_type, newblock->shape, newblock->rotation);
     memcpy(newblock->pre_shape, newblock->shape, sizeof(int) * 4 * 4);
 
+    newblock->pre_x = x_in;
+    newblock->pre_y = y_in;
+
     newblock->x = x_in;
     newblock->y = y_in;
 
@@ -212,30 +215,43 @@ void delBlock(Block * delBlock)
 }
 
 bool Block::down()
-{
+{   
+    int temp = pre_y;
     pre_x = x;
     pre_y = y++;
 
-    return check();
-
-
-bool Block::left()
-{
-    pre_x = x--;
-    pre_y = y;
-
-    return check();
+    if(check() == false){
+        pre_y = temp;
+        y--;
+    }
+    return false;
 }
 
-bool Block::right()
+void Block::left()
 {
+    int temp = pre_x;
+    pre_x = x--;
+    pre_y = y;
+    
+    if(x <= 1 || check() == false){
+        pre_x = temp;
+        x++;
+    }
+}
+
+void Block::right()
+{
+    int temp = pre_x;
     pre_x = x++;
     pre_y = y;
 
-    return check();
+    if(check() == false){
+        pre_x = temp;
+        x--;
+    }
 }
 
-bool Block::rotate(int direction)
+void Block::rotate(int direction)
 {
     memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
 
@@ -261,20 +277,19 @@ bool Block::rotate(int direction)
     }
 
     setShape(block_type, shape, rotation);
-
-    return check();
 }
 
 bool Block::check()
 {
+    int flag = true;
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            if (shape[i][j] == 2) {
-                if (matrix[x + i][x + j] != 0) {
-                    return false;
+            if (shape[i][j] != 0) {
+                if (matrix[x + j][y + i- 1] != 0) {
+                    flag = false;
                 }
             }
         }
     }
-  return true;
+  return flag;
 }
