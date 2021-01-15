@@ -20,8 +20,8 @@ struct Block
     bool check();
 };
 
-Block & newBlock(int x_in, int y_in);                         // 블럭 데이터 생성
-void delBlock(Block * delBlock);                        // 블럭 데이터 삭제
+Block & newBlock(int x_in, int y_in);                      // 블럭 데이터 생성
+void delBlock(Block * delBlock);                           // 블럭 데이터 삭제
 void setShape(int b_type, int shape[4][4], int rotation);  // 블럭타입 set
 
 #endif
