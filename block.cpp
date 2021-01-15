@@ -161,13 +161,13 @@ const int block5[4][4][4] = {
 Block & newBlock(int x_in, int y_in)         
 {
     Block * newblock = new Block;
-    int block_type;
     srand(time(0));
 
     newblock->rotation = rand() % 4 + 0;
-    block_type = rand() % 5 + 0;
+    newblock->block_type = rand() % 5 + 0;
     
-    setShape(block_type, newblock->shape, newblock->rotation);
+    setShape(newblock->block_type, newblock->shape, newblock->rotation);
+    memcpy(newblock->pre_shape, newblock->shape, sizeof(int) * 4 * 4);
 
     newblock->x = x_in;
     newblock->y = y_in;
@@ -213,15 +213,12 @@ void delBlock(Block * delBlock)
 
 void Block::down()
 {
-    memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
-
     pre_x = x;
     pre_y = y++;
 }
 
 void Block::left()
 {
-    memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
 
     pre_x = x--;
     pre_y = y;
@@ -229,7 +226,6 @@ void Block::left()
 
 void Block::right()
 {
-    memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
 
     pre_x = x++;
     pre_y = y;
