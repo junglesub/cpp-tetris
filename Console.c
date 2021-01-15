@@ -12,7 +12,7 @@
 
 #include <windows.h>
 
-#include "Console.h"
+#include "Console.hpp"
 
 void clrscr(void)		// clear the screen
 {
