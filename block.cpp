@@ -167,7 +167,6 @@ Block & newBlock(int x_in, int y_in)
     newblock->block_type = rand() % 5 + 0;
     
     setShape(newblock->block_type, newblock->shape, newblock->rotation);
-    memcpy(newblock->pre_shape, newblock->shape, sizeof(int) * 4 * 4);
 
     newblock->x = x_in;
     newblock->y = y_in;
@@ -215,6 +214,7 @@ void Block::down()
 {
     pre_x = x;
     pre_y = y++;
+    memcpy(newblock->pre_shape, newblock->shape, sizeof(int) * 4 * 4);
 }
 
 void Block::left()
