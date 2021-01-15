@@ -44,8 +44,9 @@ int main(void) {
     matrix[screenWidth / 3 * 2 - 1][row] = 1;
   }
 
-  Block &block = newBlock(3, 1);
-  Block *nextBlock = &newBlock(8, 1);
+  Block &block = newBlock(screenWidth / 3 - 2, 1);
+  Block *nextBlock = &newBlock(screenWidth / 3 * 2 + screenWidth / 6 - 1, 10);
+  showBlock(*nextBlock, "#");
 
   while (1) {
     // 키보드 입력
@@ -131,7 +132,7 @@ bool inBoundOfMatrix(int x, int y) {
     }
   }
   gotoxy(1, screenHeight + 1);
-  cout << "WARN-OOB";
+  cout << "WARN-OOB (" << x << "," << y;
   return false;
 }
 
@@ -150,9 +151,13 @@ void bottomCollide(int **matrix, Block *block, Block **nextBlock) {
       }
     }
   }
-  // delBlock(block);
-  // *block = **nextBlock;
-  // *nextBlock = &newBlock(3, 1);
+  memcpy(block, *nextBlock, sizeof(Block));
+  showBlock(**nextBlock, " ");
+  block->x = screenWidth / 3 - 2;
+  block->y = 1;
+  *nextBlock = &newBlock(screenWidth / 3 * 2 + screenWidth / 6 - 1, 10);
+  showBlock(**nextBlock, "#");
+  // // *nextBlock = &newBlock(3, 1);
 }
 
 void drawMainFrame(void) {
