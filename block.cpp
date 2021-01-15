@@ -230,7 +230,7 @@ void Block::left()
 void Block::right()
 {
     memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
-    
+
     pre_x = x++;
     pre_y = y;
 }
@@ -244,14 +244,14 @@ void Block::rotate(int direction)
     case right_turn:
         rotation++;
         if (rotation > 3) {
-            direction %= 4;
+            rotation %= 4;
         }
         break;
 
     case left_turn:
         rotation--;
         if (rotation < 0) {
-            direction += 4;
+            ratation += 4;
         }
         break;
     
