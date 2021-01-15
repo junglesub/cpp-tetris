@@ -1,7 +1,7 @@
 struct Block 
 {
-    int rotation, x, y;
-    int shape[1][4][4];         // shape[rotation][x][y]
+    int rotation;
+    int shape[4][4];         // shape[x][y]
 
     void del();                 // 블럭 데이터 삭제
 
