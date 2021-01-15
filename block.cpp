@@ -215,12 +215,9 @@ bool Block::down()
 {
     pre_x = x;
     pre_y = y++;
-<<<<<<< HEAD
 
     return check();
-=======
->>>>>>> master
-}
+
 
 bool Block::left()
 {
