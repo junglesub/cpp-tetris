@@ -12,6 +12,8 @@ void drawScoreBoard(void);
 void showBlock(Block block, string s = "#");
 void removeBlock(Block block, string s = " ");
 void render(int t, Block block);
+bool inBoundOfMatrix(int x, int y);
+void bottomCollide(int **matrix, Block *block, Block **nextBlock);
 
 int const screenWidth = getWindowWidth();
 int const screenHeight = getWindowHeight() - 3;
@@ -31,9 +33,16 @@ int main(void) {
   int flag;
 
   // 2차원 동적 Matrix [x][y] 으로 이용.
-  int **matrix = new int *[screenWidth / 3 * 2];
+  int **matrix = (int **)malloc(sizeof(int *) * screenWidth / 3 * 2);
   for (int col = 0; col < screenWidth / 3 * 2; col++) {
-    matrix[col] = new int[screenHeight];
+    matrix[col] = (int *)calloc(screenHeight, sizeof(int *));
+    // 초기화
+    matrix[col][0] = 1;                 // 천장
+    matrix[col][screenHeight - 2] = 1;  // 바닥
+  }
+  for (int row = 1; row < screenHeight - 1; row++) {
+    matrix[0][row] = 1;
+    matrix[screenWidth / 3 * 2 - 1][row] = 1;
   }
 
   Block &block = newBlock(3, 0);
@@ -50,6 +59,8 @@ int main(void) {
       } else if (ch == 'a') {
         flag = block.left();
         render(t, block);
+      } else if (ch == 'm') {
+        bottomCollide(matrix, &block, &nextBlock);
       } else if (ch == 'd') {
         flag = block.right();
         render(t, block);
@@ -62,6 +73,12 @@ int main(void) {
         flag = block.rotate(1);
         memcpy(block.pre_shape, block.shape, sizeof(int) * 4 * 4);
         showBlock(block);  // showBlock(block, "#");
+      } else if (ch == 'e') {
+        // removeBlock(block, "-");
+        showBlock(block, " ");
+        block.rotate(-1);
+        memcpy(block.pre_shape, block.shape, sizeof(int) * 4 * 4);
+        showBlock(block);  // showBlock(block, "#");
       }
 
       if (flag == false) {
@@ -72,23 +89,28 @@ int main(void) {
       ch = '\0';
     }
 
+    if (t % 100 == 0) {
+      block.down();
+      render(t, block);
+    }
+
     t++;
     gotoxy(1, screenHeight + 1);
     MySleep(10);
   }
   gotoxy(1, 1);
-  printf("Good bye!\n");
+  cout << "Good Bye!\n";
 }
 
 void render(int t, Block block) {
-    // Finally Display the Block
-    // Remove Last saved Block
-    if (t > 0) {
-      removeBlock(block, "-");
-    }
+  // Finally Display the Block
+  // Remove Last saved Block
+  if (t > 0) {
+    removeBlock(block, " ");
+  }
 
-    // Display block
-    showBlock(block);  // showBlock(block, "#");
+  // Display block
+  showBlock(block);  // showBlock(block, "#");
 }
 
 void showBlock(Block block, string s) {
@@ -110,6 +132,37 @@ void removeBlock(Block block, string s) {
       }
     }
   }
+}
+
+bool inBoundOfMatrix(int x, int y) {
+  if (x > 0 && x < screenWidth / 3 * 2) {
+    if (y > 0 && y < screenHeight) {
+      return true;
+    }
+  }
+  gotoxy(1, screenHeight + 1);
+  cout << "WARN-OOB";
+  return false;
+}
+
+void bottomCollide(int **matrix, Block *block, Block **nextBlock) {
+  for (int x = 0; x < 4; x++) {
+    for (int y = 0; y < 4; y++) {
+      if (block->pre_shape[x][y] == 2) {
+        int setX = block->x + x;
+        int setY = block->y + y;
+
+        if (inBoundOfMatrix(setX, setY)) {
+          matrix[setX][setY] = 2;
+          gotoxy(setX, setY);
+          cout << "▣";
+        }
+      }
+    }
+  }
+  // delBlock(block);
+  // *block = **nextBlock;
+  // *nextBlock = &newBlock(3, 1);
 }
 
 void drawMainFrame(void) {
@@ -139,7 +192,7 @@ void drawMainFrame(void) {
     cout << "║";
     for (int x = 2; x < screenWidth - 1; x++) {
       gotoxy(x, y);
-      cout << ".";
+      cout << " ";
     }
     cout << "║";
   }
