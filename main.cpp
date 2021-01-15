@@ -11,6 +11,7 @@ void drawMainFrame(void);
 void drawScoreBoard(void);
 void showBlock(Block block, string s = "#");
 void removeBlock(Block block, string s = " ");
+void render(int t, Block block);
 
 int const screenWidth = getWindowWidth();
 int const screenHeight = getWindowHeight() - 3;
@@ -34,7 +35,7 @@ int main(void) {
     matrix[col] = new int[screenHeight];
   }
 
-  Block &block = newBlock(3, 5);
+  Block &block = newBlock(3, 0);
 
   while (1) {
     // 키보드 입력
@@ -45,27 +46,23 @@ int main(void) {
         break;
       } else if (ch == 'a') {
         block.left();
+        render(t, block);
       } else if (ch == 'd') {
         block.right();
+        render(t, block);
+      } else if (ch == 's') {
+        block.down();
+        render(t, block);
       } else if (ch == 'r') {
+        // removeBlock(block, "-");
+        showBlock(block, " ");
         block.rotate(1);
+        memcpy(block.pre_shape, block.shape, sizeof(int) * 4 * 4);
+        showBlock(block);  // showBlock(block, "#");
       }
 
       ch = '\0';
     }
-
-    if (t % 100 == 0) {
-      block.down();
-    }
-
-    // Finally Display the Block
-    // Remove Last saved Block
-    if (t > 0) {
-      removeBlock(block);
-    }
-
-    // Display block
-    showBlock(block);  // showBlock(block, "#");
 
     t++;
     gotoxy(1, screenHeight + 1);
@@ -73,6 +70,17 @@ int main(void) {
   }
   gotoxy(1, 1);
   printf("Good bye!\n");
+}
+
+void render(int t, Block block) {
+    // Finally Display the Block
+    // Remove Last saved Block
+    if (t > 0) {
+      removeBlock(block, "-");
+    }
+
+    // Display block
+    showBlock(block);  // showBlock(block, "#");
 }
 
 void showBlock(Block block, string s) {
@@ -123,7 +131,7 @@ void drawMainFrame(void) {
     cout << "║";
     for (int x = 2; x < screenWidth - 1; x++) {
       gotoxy(x, y);
-      cout << " ";
+      cout << ".";
     }
     cout << "║";
   }
