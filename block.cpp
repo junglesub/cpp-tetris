@@ -213,18 +213,24 @@ void delBlock(Block * delBlock)
 
 void Block::down()
 {
+    memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
+
     pre_x = x;
     pre_y = y++;
 }
 
 void Block::left()
 {
+    memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
+
     pre_x = x--;
     pre_y = y;
 }
 
 void Block::right()
 {
+    memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
+    
     pre_x = x++;
     pre_y = y;
 }
