@@ -28,6 +28,7 @@ int main(void) {
 
   int t = 0;
   char ch = '\0';
+  int flag;
 
   // 2차원 동적 Matrix [x][y] 으로 이용.
   int **matrix = new int *[screenWidth / 3 * 2];
@@ -36,8 +37,10 @@ int main(void) {
   }
 
   Block &block = newBlock(3, 0);
-
+  
   while (1) {
+    flag = true;
+    block.matrix = matrix;
     // 키보드 입력
     if (kbhit()) {
       ch = getch();
@@ -45,20 +48,25 @@ int main(void) {
       if (ch == 27 || ch == 'q') {
         break;
       } else if (ch == 'a') {
-        block.left();
+        flag = block.left();
         render(t, block);
       } else if (ch == 'd') {
-        block.right();
+        flag = block.right();
         render(t, block);
       } else if (ch == 's') {
-        block.down();
+        flag = block.down();
         render(t, block);
       } else if (ch == 'r') {
         // removeBlock(block, "-");
         showBlock(block, " ");
-        block.rotate(1);
+        flag = block.rotate(1);
         memcpy(block.pre_shape, block.shape, sizeof(int) * 4 * 4);
         showBlock(block);  // showBlock(block, "#");
+      }
+
+      if (flag == false) {
+        cout << "game end";
+        break;
       }
 
       ch = '\0';

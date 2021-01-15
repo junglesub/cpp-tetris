@@ -10,10 +10,14 @@ struct Block
     int shape[4][4];                   // shape[x][y]
     int pre_shape[4][4];               // shape[x][y]
 
-    void down();                    // 블럭 수정
-    void left();                    // 왼쪽, 오른쪽
-    void right();                   // 오른쪽
-    void rotate(int direction);     // 회전
+    int ** matrix;
+
+    bool down();                    // 블럭 수정
+    bool left();                    // 왼쪽, 오른쪽
+    bool right();                   // 오른쪽
+    bool rotate(int direction);     // 회전
+
+    bool check();
 };
 
 Block & newBlock(int x_in, int y_in);                         // 블럭 데이터 생성

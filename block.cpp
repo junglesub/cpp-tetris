@@ -210,28 +210,31 @@ void delBlock(Block * delBlock)
     delete delBlock;
 }
 
-void Block::down()
+bool Block::down()
 {
     pre_x = x;
     pre_y = y++;
-    memcpy(newblock->pre_shape, newblock->shape, sizeof(int) * 4 * 4);
+
+    return check();
 }
 
-void Block::left()
+bool Block::left()
 {
-
     pre_x = x--;
     pre_y = y;
+
+    return check();
 }
 
-void Block::right()
+bool Block::right()
 {
-
     pre_x = x++;
     pre_y = y;
+
+    return check();
 }
 
-void Block::rotate(int direction)
+bool Block::rotate(int direction)
 {
     memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
 
@@ -257,4 +260,20 @@ void Block::rotate(int direction)
     }
 
     setShape(block_type, shape, rotation);
+
+    return check();
+}
+
+bool Block::check()
+{
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (shape[i][j] == 2) {
+                if (matrix[x + i][x + j] != 0) {
+                    return false;
+                }
+            }
+        }
+    }
+  return true;
 }
