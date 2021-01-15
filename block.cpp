@@ -251,7 +251,7 @@ void Block::rotate(int direction)
     case left_turn:
         rotation--;
         if (rotation < 0) {
-            ratation += 4;
+            rotation += 4;
         }
         break;
     
