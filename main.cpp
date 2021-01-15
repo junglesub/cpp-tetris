@@ -34,7 +34,7 @@ int main(void) {
   char ch = '\0';
   int flag;
 
-  // 2차원 동적 Matrix [x][y] 으로 이용.
+  // 2차원 동적 Matrix [y][x] 으로 이용.
   int **matrix = (int **)malloc(sizeof(int *) * screenHeight + 1);
   for (int col = 0; col < screenHeight + 1; col++) {
     matrix[col] = (int *)calloc(screenWidth, sizeof(int *));
@@ -129,7 +129,7 @@ void render(int t, Block block) {
 void showBlock(Block block, string s) {
   for (int x = 0; x < 4; x++) {
     for (int y = 0; y < 4; y++) {
-      if (block.shape[x][y] == 2) {
+      if (block.shape[y][x] == 2) {
         gotoxy(block.x + x, block.y + y);
         cout << s;
       }
@@ -139,7 +139,7 @@ void showBlock(Block block, string s) {
 void removeBlock(Block block, string s) {
   for (int x = 0; x < 4; x++) {
     for (int y = 0; y < 4; y++) {
-      if (block.pre_shape[x][y] == 2) {
+      if (block.pre_shape[y][x] == 2) {
         gotoxy(block.pre_x + x, block.pre_y + y);
         cout << s;
       }
@@ -161,7 +161,7 @@ bool inBoundOfMatrix(int x, int y) {
 void bottomCollide(int **matrix, Block *block, Block **nextBlock) {
   for (int x = 0; x < 4; x++) {
     for (int y = 0; y < 4; y++) {
-      if (block->pre_shape[x][y] == 2) {
+      if (block->pre_shape[y][x] == 2) {
         int setX = block->x + x;
         int setY = block->y + y;
 
