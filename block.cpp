@@ -8,6 +8,10 @@ using namespace std;
 #include "block.hpp"
 #include "Console.h"
 
+int main(){
+    return 0;
+}
+
 enum BlockType
 {
     b1, b2, b3, b4, b5
@@ -154,7 +158,7 @@ const int block5[4][4][4] = {
         },
 };
 
-Block * newBlock(int x, int y)         
+Block * newBlock(int x_in, int y_in)         
 {
     Block * newblock = new Block;
     int block_type;
@@ -163,9 +167,9 @@ Block * newBlock(int x, int y)
     newblock->rotation = rand() % 4 + 0;
     block_type = rand() % 5 + 0;
     setShape(block_type, newblock->shape, newblock->rotation);
-    
-    Block::x = x;
-    Block::y = y;
+
+    newblock->x = x_in;
+    newblock->y = y_in;
 
     return newblock;
 }
