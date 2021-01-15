@@ -8,10 +8,6 @@ using namespace std;
 #include "block.hpp"
 #include "Console.h"
 
-int main(){
-    return 0;
-}
-
 enum BlockType
 {
     b1, b2, b3, b4, b5
