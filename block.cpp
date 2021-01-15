@@ -244,7 +244,7 @@ void Block::rotate(int direction)
     case right_turn:
         rotation++;
         if (rotation > 3) {
-            rotation %= 4;
+            rotation -= 4;
         }
         break;
 
