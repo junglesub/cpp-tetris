@@ -1,7 +1,8 @@
 struct Block 
 {
-    int rotation;
-    int shape[4][4];         // shape[x][y]
+    int x, y;
+    int rotation, block_type;
+    int ** shape;            // shape[x][y]
 
     void del();                 // 블럭 데이터 삭제
 
@@ -12,3 +13,4 @@ struct Block
 };
 
 Block * newBlock(int &x, int &y);         // 블럭 데이터 생성, shape 4 * 4, rotate, 초깃값 내가
+void setShape(int b_type, int ** shape, int rotation);  // 블럭타입 set
