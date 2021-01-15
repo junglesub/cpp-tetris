@@ -11,6 +11,7 @@ struct Block
     int pre_shape[4][4];               // shape[x][y]
 
     int ** matrix;
+    int count;
 
     bool down();                    // 블럭 수정
     void left();                    // 왼쪽, 오른쪽

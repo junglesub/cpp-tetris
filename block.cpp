@@ -175,6 +175,8 @@ Block & newBlock(int x_in, int y_in)
     newblock->x = x_in;
     newblock->y = y_in;
 
+    newblock->count = 0;
+
     return *newblock;
 }
 
@@ -219,6 +221,8 @@ bool Block::down()
     int temp = pre_y;
     pre_x = x;
     pre_y = y++;
+
+    count++;
 
     if(check() == false){
         pre_y = temp;

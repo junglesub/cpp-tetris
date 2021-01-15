@@ -67,7 +67,12 @@ int main(void) {
         block.right();
         render(t, block);
       } else if (ch == 's') {
-        if (!block.down()) bottomCollide(matrix, &block, &nextBlock);
+        if (!block.down()) {
+          if (block.count < 2) {
+            break;
+          }
+          bottomCollide(matrix, &block, &nextBlock);
+        }
         render(t, block);
       } else if (ch == 'r') {
         // removeBlock(block, "-");
@@ -87,7 +92,12 @@ int main(void) {
     }
 
     if (t % 100 == 0) {
-      if (!block.down()) bottomCollide(matrix, &block, &nextBlock);
+      if (!block.down()) {
+        if (block.count < 2) {
+          break;
+        }
+      bottomCollide(matrix, &block, &nextBlock);
+      }
       render(t, block);
     }
 
@@ -96,6 +106,7 @@ int main(void) {
     MySleep(10);
   }
   gotoxy(1, 1);
+  clrscr();
   cout << "Good Bye!\n";
 }
 
@@ -164,6 +175,7 @@ void bottomCollide(int **matrix, Block *block, Block **nextBlock) {
   *nextBlock = &newBlock(screenWidth / 3 * 2 + screenWidth / 6 - 1, 10);
   showBlock(**nextBlock, "#");
   // // *nextBlock = &newBlock(3, 1);
+
 }
 
 void drawMainFrame(void) {
