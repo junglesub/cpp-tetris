@@ -17,6 +17,9 @@ void bottomCollide(int **matrix, Block *block, Block **nextBlock);
 
 int const screenWidth = 30;
 int const screenHeight = 24;
+
+int const screenLeftWidth = screenWidth / 3 * 2;
+int const screenRightWidth = screenWidth / 3;
 // int const screenWidth = getWindowWidth();
 // int const screenHeight = getWindowHeight() - 3;
 string const BORDERCH = "▓";
@@ -37,14 +40,14 @@ int main(void) {
   // 2차원 동적 Matrix [y][x] 으로 이용.
   int **matrix = (int **)malloc(sizeof(int *) * screenHeight + 1);
   for (int col = 0; col < screenHeight + 1; col++) {
-    matrix[col] = (int *)calloc(screenWidth, sizeof(int *));
+    matrix[col] = (int *)calloc(screenLeftWidth, sizeof(int *));
     // 초기화
-    matrix[0][col] = 1;                 // 왼쪽
-    matrix[screenWidth - 1][col] = 1;  // 오른쪽
+    matrix[col][0] = 1;                 // 왼쪽
+    matrix[col][screenLeftWidth - 1] = 1;  // 오른쪽
   }
-  for (int row = 1; row < screenWidth - 1; row++) {
-    matrix[row][0] = 1;
-    matrix[row][screenHeight] = 1;
+  for (int row = 1; row < screenLeftWidth - 1; row++) {
+    matrix[0][row] = 1;
+    matrix[screenHeight][row] = 1;
   }
 
   Block &block = newBlock(screenHeight / 3 - 2, 1);
