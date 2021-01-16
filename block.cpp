@@ -258,8 +258,6 @@ void Block::right()
 
 void Block::rotate(int direction)
 {
-    int pre_rotation = rotation;
-
     memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
 
     switch (direction)
@@ -282,11 +280,8 @@ void Block::rotate(int direction)
         cout << "directon is not true. direction: " << direction << '\n';
         break;
     }
+
     setShape(block_type, shape, rotation);
-    if (check() == false) {
-        setShape(block_type, shape, pre_rotation);
-        rotation = pre_rotation;
-    }
 }
 
 bool Block::check()
@@ -295,7 +290,7 @@ bool Block::check()
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             if (shape[j][i] != 0) {
-                if (matrix[y + j][x + i] != 0) {
+                if (matrix[x + j][y + j] != 0) {
                     flag = false;
                 }
             }
