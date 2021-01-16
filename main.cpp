@@ -47,8 +47,8 @@ int main(void) {
     matrix[col][screenHeight - 1] = 1;  // 바닥
   }
   for (int row = 1; row < screenHeight - 1; row++) {
-    matrix[0][row] = 1;
-    matrix[1][row] = 1;
+    // matrix[0][row] = 1;
+    // matrix[1][row] = 1;
     matrix[2][row] = 1;
     matrix[leftScreenWidth - 1][row] = 1;
   }
@@ -200,7 +200,7 @@ void drawMainFrame(void) {
   gotoxy(0, 0);  // 좌측 상단에서 시작.
 
   // 맨 위 가로 # 그리기
-  for (int x = 0; x < screenWidth; x++) {
+  for (int x = 2; x < screenWidth; x++) {
     gotoxy(x, 0);
     cout << "═";
   }
@@ -225,7 +225,7 @@ void drawMainFrame(void) {
   }
 
   // 맨 아래 # 그리기
-  for (int x = 0; x < screenWidth; x++) {
+  for (int x = 2; x < screenWidth; x++) {
     gotoxy(x, screenHeight);
     cout << "═";
   }

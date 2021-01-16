@@ -13,9 +13,10 @@ struct Block
     int ** matrix;
     int count;
 
-    bool down();                    // 블럭 수정
-    void left();                    // 왼쪽, 오른쪽
+    void left();                    // 왼쪽
     void right();                   // 오른쪽
+    bool down();                    // 아래
+    bool go_bottom();               // 바닥으로
     void rotate(int direction);     // 회전
 
     bool check();
