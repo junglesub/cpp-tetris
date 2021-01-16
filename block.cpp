@@ -238,7 +238,7 @@ void Block::left()
     pre_x = x--;
     pre_y = y;
     
-    if(x <= 1 || check() == false){
+    if(check() == false){
         pre_x = temp;
         x++;
     }

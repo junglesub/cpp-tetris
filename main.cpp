@@ -16,6 +16,7 @@ void removeBlock(Block block, string s = " ");
 void render(int t, Block block);
 bool inBoundOfMatrix(int x, int y);
 void bottomCollide(int **matrix, Block *block, Block **nextBlock);
+void removeLine(int **matrix, Block block);
 
 int const screenWidth = 30;
 int const screenHeight = 24;
@@ -80,6 +81,7 @@ int main(void) {
             break;
           }
           bottomCollide(matrix, &block, &nextBlock);
+          continue;
         }
         render(t, block);
       } else if (ch == 'r') {
@@ -106,6 +108,7 @@ int main(void) {
           break;
         }
         bottomCollide(matrix, &block, &nextBlock);
+        continue;
       }
       render(t, block);
     }
@@ -177,6 +180,9 @@ void bottomCollide(int **matrix, Block *block, Block **nextBlock) {
       }
     }
   }
+
+  removeLine(matrix, *block);
+
   memcpy(block, *nextBlock, sizeof(Block));
   showBlock(**nextBlock, " ");
   block->x = screenWidth / 3 - 2;
@@ -279,4 +285,24 @@ void debugMatrix(int **matrix){
 		writeFile.close();
   }
   writeFile << "== End ==" << endl;
+}
+
+void removeLine(int **matrix, Block block) {
+  int count;
+  for(int row = 0; row < 4; row++) {
+    count = 0;
+    for(int col = 0; col < leftScreenWidth; col++) {
+      if(matrix[col][block.y + row] == 2) {
+        count++;
+      }
+    }
+    // if(count == leftScreenWidth) {
+    gotoxy(2 + row, screenHeight + 1);
+    cout << count;
+    if(count > 12) {
+      for(int col = 0; col < leftScreenWidth; col++) {
+        matrix[col][block.y + row] = 0;
+      }
+    }
+  }
 }
