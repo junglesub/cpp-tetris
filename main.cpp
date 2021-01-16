@@ -47,7 +47,7 @@ int main(void) {
   }
   for (int row = 1; row < screenHeight - 1; row++) {
     matrix[0][row] = 1;
-    matrix[leftScreenWidth][row] = 1;
+    matrix[leftScreenWidth - 1][row] = 1;
   }
 
   Block &block = newBlock(screenWidth / 3 - 2, 1);
