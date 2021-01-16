@@ -175,7 +175,7 @@ void bottomCollide(int **matrix, Block *block, Block **nextBlock) {
         if (inBoundOfMatrix(setX, setY)) {
           matrix[setX][setY] = 2;
           gotoxy(setX, setY);
-          cout << "▒";
+          cout << "█";
         }
       }
     }
