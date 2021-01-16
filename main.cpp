@@ -35,20 +35,20 @@ int main(void) {
   int flag;
 
   // 2차원 동적 Matrix [x][y] 으로 이용.
-  int **matrix = (int **)malloc(sizeof(int *) * screenHeight + 1);
-  for (int col = 0; col < screenHeight + 1; col++) {
-    matrix[col] = (int *)calloc(screenWidth, sizeof(int *));
+  int **matrix = (int **)malloc(sizeof(int *) * screenWidth / 3 * 2 + 1);
+  for (int col = 0; col < screenWidth / 3 * 2 + 1; col++) {
+    matrix[col] = (int *)calloc(screenHeight, sizeof(int *));
     // 초기화
-    matrix[0][col] = 1;                 // 왼쪽
-    matrix[screenWidth - 1][col] = 1;  // 오른쪽
+    matrix[col][0] = 1;                 // 천장
+    matrix[col][screenHeight - 1] = 1;  // 바닥
   }
-  for (int row = 1; row < screenWidth - 1; row++) {
-    matrix[row][0] = 1;
-    matrix[row][screenHeight] = 1;
+  for (int row = 1; row < screenHeight - 1; row++) {
+    matrix[0][row] = 1;
+    matrix[screenWidth / 3 * 2][row] = 1;
   }
 
-  Block &block = newBlock(screenHeight / 3 - 2, 1);
-  Block *nextBlock = &newBlock(screenHeight + screenHeight / 6 - 1, 10);
+  Block &block = newBlock(screenWidth / 3 - 2, 1);
+  Block *nextBlock = &newBlock(screenWidth / 3 * 2 + screenWidth / 6 - 1, 10);
   showBlock(*nextBlock, "█");
 
   while (1) {
@@ -75,7 +75,6 @@ int main(void) {
             break;
           }
           bottomCollide(matrix, &block, &nextBlock);
-          continue;
         }
         render(t, block);
       } else if (ch == 'r') {
@@ -101,13 +100,12 @@ int main(void) {
           break;
         }
         bottomCollide(matrix, &block, &nextBlock);
-        continue;
       }
       render(t, block);
     }
 
     t++;
-    gotoxy(1, screenWidth + 1);
+    gotoxy(1, screenHeight + 1);
     MySleep(10);
   }
   gotoxy(1, 1);
@@ -148,12 +146,12 @@ void removeBlock(Block block, string s) {
 }
 
 bool inBoundOfMatrix(int x, int y) {
-  if (x > 0 && x < screenHeight) {
-    if (y > 0 && y < screenWidth) {
+  if (x > 0 && x < screenWidth / 3 * 2) {
+    if (y > 0 && y < screenHeight) {
       return true;
     }
   }
-  gotoxy(1, screenWidth + 1);
+  gotoxy(1, screenHeight + 1);
   cout << "WARN-OOB (" << x << "," << y;
   return false;
 }
@@ -175,9 +173,9 @@ void bottomCollide(int **matrix, Block *block, Block **nextBlock) {
   }
   memcpy(block, *nextBlock, sizeof(Block));
   showBlock(**nextBlock, " ");
-  block->x = screenHeight / 3 - 2;
+  block->x = screenWidth / 3 - 2;
   block->y = 1;
-  *nextBlock = &newBlock(screenHeight + screenHeight / 6 - 1, 10);
+  *nextBlock = &newBlock(screenWidth / 3 * 2 + screenWidth / 6 - 1, 10);
   showBlock(**nextBlock, "▓");
   // // *nextBlock = &newBlock(3, 1);
 }
