@@ -258,6 +258,7 @@ void Block::right()
 
 void Block::rotate(int direction)
 {
+    int temp = rotation;
     memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
 
     switch (direction)
@@ -282,6 +283,10 @@ void Block::rotate(int direction)
     }
 
     setShape(block_type, shape, rotation);
+    if(check() == false){
+        pre_x = temp;
+        x--;
+    }
 }
 
 bool Block::check()
