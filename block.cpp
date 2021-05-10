@@ -1,13 +1,3 @@
-#include <iostream>
-using namespace std;
-
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-
-#include "block.hpp"
-#include "Console.h"
-
 enum BlockType
 {
     b1, b2, b3, b4, b5
@@ -154,7 +144,7 @@ const int block5[4][4][4] = {
         },
 };
 
-Block & newBlock(int x_in, int y_in)         
+Block::Block(int x_in, int y_in)         
 {
     Block * newblock = new Block;
     srand(time(0));
@@ -162,7 +152,7 @@ Block & newBlock(int x_in, int y_in)
     newblock->rotation = rand() % 4 + 0;
     newblock->block_type = rand() % 5 + 0;
     
-    setShape(newblock->block_type, newblock->shape, newblock->rotation);
+    Block::setShape(newblock->block_type, newblock->shape, newblock->rotation);
     memcpy(newblock->pre_shape, newblock->shape, sizeof(int) * 4 * 4);
 
     newblock->pre_x = x_in;
@@ -176,7 +166,7 @@ Block & newBlock(int x_in, int y_in)
     return *newblock;
 }
 
-void setShape(int b_type, int shape[4][4], int rotation)
+void Block::setShape(int b_type, int shape[4][4], int rotation)
 {
 
     switch (b_type)
@@ -207,12 +197,12 @@ void setShape(int b_type, int shape[4][4], int rotation)
     }
 }
 
-void delBlock(Block * delBlock)
+void Block::delBlock(Block * delBlock)
 {
     delete delBlock;
 }
 
-bool Block::down()
+bool Block::Block::down()
 {   
     int temp = pre_y;
     pre_x = x;
@@ -228,7 +218,7 @@ bool Block::down()
     return true;
 }
 
-void Block::left()
+void Block::Block::left()
 {
     int temp = pre_x;
     pre_x = x--;
@@ -240,7 +230,7 @@ void Block::left()
     }
 }
 
-void Block::right()
+void Block::Block::right()
 {
     int temp = pre_x;
     pre_x = x++;
@@ -252,7 +242,7 @@ void Block::right()
     }
 }
 
-void Block::rotate(int direction)
+void Block::Block::rotate(int direction)
 {
     int temp = rotation;
     memcpy(pre_shape, shape, sizeof(int) * 4 * 4);
@@ -285,17 +275,23 @@ void Block::rotate(int direction)
     }
 }
 
-bool Block::check()
-{
-    int flag = true;
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            if (shape[i][j] != 0) {
-                if (matrix[x + i][y + j] != 0) {
-                    flag = false;
-                }
-            }
-        }
+void Block::showBlock(Matrix& matrix, string s) {
+  for (int x = 0; x < 4; x++) {
+    for (int y = 0; y < 4; y++) {
+      if (block.shape[x][y] == 2) {
+        gotoxy(block.x + x, block.y + y);
+        cout << s;
+      }
     }
-  return flag;
+  }
+}
+void Block::removeBlock(Matrix& matrix, string s) {
+  for (int x = 0; x < 4; x++) {
+    for (int y = 0; y < 4; y++) {
+      if (block.pre_shape[x][y] == 2) {
+        gotoxy(block.pre_x + x, block.pre_y + y);
+        cout << s;
+      }
+    }
+  }
 }

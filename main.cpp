@@ -4,19 +4,17 @@
   #include <fstream>
 
 #include "Console.h"
-#include "block.hpp"
+#include "matrix.hpp"
 
 using namespace std;
 
-void debugMatrix(int **matrix);
 void drawMainFrame(void);
 void drawScoreBoard(void);
-void showBlock(Block block, string s = "█");
-void removeBlock(Block block, string s = " ");
-void render(int t, Block block);
+void showBlock(Matrix::Block block, string s = "█");
+void removeBlock(Matrix::Block block, string s = " ");
+void render(int t, Matrix::Block block);
 bool inBoundOfMatrix(int x, int y);
-void bottomCollide(int **matrix, Block *block, Block **nextBlock);
-void removeLine(int **matrix, Block block);
+void bottomCollide(int **matrix, Matrix::Block *block, Matrix::Block **nextBlock);
 
 int const screenWidth = 30;
 int const screenHeight = 24;
@@ -39,22 +37,10 @@ int main(void) {
   int flag;
 
   // 2차원 동적 Matrix [x][y] 으로 이용.
-  int **matrix = (int **)malloc(sizeof(int *) * leftScreenWidth + 1);
-  for (int col = 0; col < leftScreenWidth + 1; col++) {
-    matrix[col] = (int *)calloc(screenHeight, sizeof(int *));
-    // 초기화
-    matrix[col][0] = 1;                 // 천장
-    matrix[col][screenHeight - 1] = 1;  // 바닥
-  }
-  for (int row = 1; row < screenHeight - 1; row++) {
-    // matrix[0][row] = 1;
-    // matrix[1][row] = 1;
-    matrix[2][row] = 1;
-    matrix[leftScreenWidth - 1][row] = 1;
-  }
+  int **matrix = new Matrix(screenHeight, leftScreenWidth);
 
-  Block &block = newBlock(screenWidth / 3 - 2, 1);
-  Block *nextBlock = &newBlock(leftScreenWidth + screenWidth / 6 - 1, 10);
+  Matrix::Block &block = Matrix::newBlock(screenWidth / 3 - 2, 1);
+  Matrix::Block *nextBlock = &Matrix::newBlock(leftScreenWidth + screenWidth / 6 - 1, 10);
   showBlock(*nextBlock, "█");
 
   while (1) {
@@ -131,27 +117,6 @@ void render(int t, Block block) {
 
   // Display block
   showBlock(block);  // showBlock(block, "█");
-}
-
-void showBlock(Block block, string s) {
-  for (int x = 0; x < 4; x++) {
-    for (int y = 0; y < 4; y++) {
-      if (block.shape[x][y] == 2) {
-        gotoxy(block.x + x, block.y + y);
-        cout << s;
-      }
-    }
-  }
-}
-void removeBlock(Block block, string s) {
-  for (int x = 0; x < 4; x++) {
-    for (int y = 0; y < 4; y++) {
-      if (block.pre_shape[x][y] == 2) {
-        gotoxy(block.pre_x + x, block.pre_y + y);
-        cout << s;
-      }
-    }
-  }
 }
 
 bool inBoundOfMatrix(int x, int y) {
@@ -267,42 +232,4 @@ void drawScoreBoard(void) {
   //   gotoxy(scoreboardStart + x, 3);
   //   cout << "🥕";
   // }
-}
-
-void debugMatrix(int **matrix){
-	string filePath = "livematrix.txt";
-
-	// write File
-	ofstream writeFile(filePath.data());
-  writeFile << "== Beginning ==" << endl;
-	if( writeFile.is_open() ){
-    for(int row = 0; row < screenHeight; row++) {
-      for(int col = 0; col < leftScreenWidth; col++) {
-        writeFile << matrix[col][row];
-      }
-      writeFile << endl;
-    }
-		writeFile.close();
-  }
-  writeFile << "== End ==" << endl;
-}
-
-void removeLine(int **matrix, Block block) {
-  int count;
-  for(int row = 0; row < 4; row++) {
-    count = 0;
-    for(int col = 0; col < leftScreenWidth; col++) {
-      if(matrix[col][block.y + row] == 2) {
-        count++;
-      }
-    }
-    // if(count == leftScreenWidth) {
-    gotoxy(2 + row, screenHeight + 1);
-    cout << count;
-    if(count > 12) {
-      for(int col = 0; col < leftScreenWidth; col++) {
-        matrix[col][block.y + row] = 0;
-      }
-    }
-  }
 }
